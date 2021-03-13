@@ -86,7 +86,19 @@ struct ContentView: View {
                             var input: String = self.inputValue
                             input = input.replacingOccurrences(of: "x", with: "*")
                             input = input.replacingOccurrences(of: "%", with: "/")
+                            
+                            var input_valid: Bool = false
+                            for i in 0...9 {
+                                if String(input.last!) == String(i) {
+                                    input_valid = true
+                                    break
+                                }
+                            }
+                            if input_valid == false {
+                                return
+                            }
                             let exp: NSExpression = NSExpression(format: input)
+                            
                             let result: Double = exp.toFloatingPoint().expressionValue(with: nil, context: nil) as! Double
                             if Double(Int(result)) == result {
                                 self.inputValue = String(Int(result))
@@ -94,6 +106,8 @@ struct ContentView: View {
                             else{
                                 self.inputValue = String(result)
                             }
+                            
+                            
                         }
                         , label: {Image(systemName: "equal")}
                     ).buttonStyle(TabButtonStyle())
